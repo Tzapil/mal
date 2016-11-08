@@ -8,7 +8,7 @@
                  [cheshire "5.5.0"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/data.zip "0.1.2"]
-                 [tblibrary "0.1.0-SNAPSHOT"]]
+                 [tblibrary "0.1.1"]]
   :main ^:skip-aot mal.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
