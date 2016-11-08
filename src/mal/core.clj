@@ -76,9 +76,7 @@
                   answer (take 10 (filter #(string/includes? (string/lower-case (first %)) anime_name) (anime-list [nil user_name nil])))
                   r (map #(inline/create_result_article (first %) (str "User: " user_name "\n" (serialize-anime %)) "" "HTML") answer)]
                     (println "RESULT:")
-                    (println r)
-                    (println anime_arr)
-                    (println anime_name)
+                    (println (count r))
                     (bot/answer_inline_query bot-token id r)))))
 
 (def h [(handlers/create_inline_query_handler inline_handler)])
