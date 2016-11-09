@@ -81,6 +81,6 @@
   [& args]
   (log/info "Start" (bot/get_me bot-token))
   ;;(println (bot/send_message "***REMOVED***" 53941045 "kokoko"))
-  ;;(updater/start_handlers h (updater/start_webhook bot-token "***REMOVED***" 8443 "mal" 7773))
-  (updater/start_handlers h (updater/start_polling bot-token 100 1000 0))
+  (updater/start_handlers h (updater/start_webhook bot-token "***REMOVED***" 8443 "mal" 7773))
+  ;;(updater/start_handlers h (updater/start_polling bot-token 100 1000 0))
   (updater/idle))
