@@ -26,7 +26,7 @@ java -jar ./target/uberjar/rss-get-0.1.0-SNAPSHOT-standalone.jar
 - cheshire 5.5.0 (provided via a dependency)
 - core.async 0.2.374 (provided via a dependency)
 - data.zip 0.1.2 (provided via a dependency)
-- tblibrary 0.1.0-SNAPSHOT (provided via a dependency)
+- tblibrary 0.1.2-SNAPSHOT (provided via a dependency)
 
 ## License
 

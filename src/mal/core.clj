@@ -6,13 +6,11 @@
             [clojure.data.zip.xml :as navigation]
             [tblibrary.bot :as bot]
             [tblibrary.helpers :as helpers]
-            [tblibrary.updater :as updater]
             [tblibrary.handlers :as handlers]
-            [tblibrary.filters :as filters]
+            [tblibrary.updater :as updater]
             [tblibrary.inline :as inline]
-            [tblibrary.chat-action :as chat-action]
             [clojure.string :as string]
-            [tblibrary.emoji :as emoji])
+            [clojure.tools.logging :as log])
   (:gen-class))
 
 (def bot-token "***REMOVED***")
@@ -47,15 +45,15 @@
               status (get anm 3)
               score (get anm 4)
               image (str "https://myanimelist.net/anime/" (get anm 5))]
-              (println status " " (anime-status status))
           (str "<b>" name "</b> " watching "/" episodes "\nStatus: " (anime-status status) "\nScore: " score "\n" image)))
 
 (defn anime-list [user]
+    (log/info "Send request to myanimelist.")
     (let [user-id (second user)
-          answer (client/get myanimelist-get-list-api
+          answer (log/spyf "Got result" (client/get myanimelist-get-list-api
                             {:query-params {:u user-id
                                             :status "all"
-                                            :type "anime"}})
+                                            :type "anime"}}))
           body (zip-str (:body answer))
           entries (navigation/xml-> body
                   :myanimelist
@@ -65,18 +63,15 @@
 
 (defn inline_handler [data]
   (let [id (get-in data [:inline_query :id])
-        iq (get-in data [:inline_query :query])
-        request (string/split iq #" ")
+        request (string/split (get-in data [:inline_query :query]) #" ")
         user_name (first request)
         anime_arr (rest request)]
-        (println "USER")
-        (println user_name)
+        (log/info "Request: {User: " user_name ", Anime: " anime_arr "}")
         (if (not (nil? user_name))
             (let [anime_name (string/lower-case (string/join " " anime_arr))
                   answer (take 10 (filter #(string/includes? (string/lower-case (first %)) anime_name) (anime-list [nil user_name nil])))
                   r (map #(inline/create_result_article (first %) (str "User: " user_name "\n" (serialize-anime %)) "" "HTML") answer)]
-                    (println "RESULT:")
-                    (println (count r))
+                    (log/info "Got " (count r) " results. Send to user.")
                     (bot/answer_inline_query bot-token id r)))))
 
 (def h [(handlers/create_inline_query_handler inline_handler)])
@@ -84,8 +79,8 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (bot/get_me bot-token))
+  (log/info "Start" (bot/get_me bot-token))
   ;;(println (bot/send_message "***REMOVED***" 53941045 "kokoko"))
-  (updater/start_handlers h (updater/start_webhook bot-token "***REMOVED***" 8443 "mal" 7773))
-  ;;(updater/start_handlers h (updater/start_polling bot-token 100 1000 0))
+  ;;(updater/start_handlers h (updater/start_webhook bot-token "***REMOVED***" 8443 "mal" 7773))
+  (updater/start_handlers h (updater/start_polling bot-token 100 1000 0))
   (updater/idle))

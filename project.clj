@@ -8,7 +8,13 @@
                  [cheshire "5.5.0"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/data.zip "0.1.2"]
-                 [tblibrary "0.1.1"]]
+                 [tblibrary "0.1.2-SNAPSHOT"]
+                 ;; Logs
+                 [org.clojure/tools.logging "0.3.1"]
+                 [log4j/log4j "1.2.17" :exclusions [javax.mail/mail
+                                                    javax.jms/jms
+                                                    com.sun.jmdk/jmxtools
+                                                    com.sun.jmx/jmxri]]]
   :main ^:skip-aot mal.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
