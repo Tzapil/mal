@@ -14,7 +14,7 @@
             [org.httpkit.client :as http-kit])
   (:gen-class))
 
-(def bot-token "***REMOVED***")
+(def bot-token "")
 
 (def myanimelist-get-list-api "http://myanimelist.net/malappinfo.php") 
 
