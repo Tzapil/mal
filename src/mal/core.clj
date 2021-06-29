@@ -97,5 +97,5 @@
   ;;                                          :type "anime"}})
   ;;  (log/info "END" a))
   (log/info "Start" (bot/get_me bot-token))
-  (updater/start_handlers h (updater/start_webhook bot-token "***REMOVED***" 8443 "mal" 7773))
+  (updater/start_handlers h (updater/start_webhook bot-token "tzapil.tk" 8443 "mal" 7773))
   (updater/idle))
